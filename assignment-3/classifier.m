@@ -41,8 +41,8 @@ for i=1:testruns
     accumulated_accuracy = accumulated_accuracy + correct / total;
 end  
 accuracy = accumulated_accuracy / testruns;
-disp('Test accuracy:');
-disp(accuracy);
+disp('Error rate:');
+disp(1-accuracy);
 
 % Naive Bayes Classifier
 function classification_data = class_train(X,Y)

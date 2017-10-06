@@ -1,12 +1,13 @@
 %% Q1
 % Least squars
+load('linjepunkter.mat');
 A = ones(numel(x), 2);
 A(:,1) = x';
 psquare = A\y';
 scatter(x, y)
 f1 = @(x) psquare(1)*x+psquare(2);
 hold on
-fplot(f1, [-0.1, 0.5])
+fplot(f1, [-0.05, 0.35])
 
 % Total least squares
 N = numel(x);
@@ -24,5 +25,5 @@ a = V(1,1);
 b = V(2,1);
 c = -1/N*(a*xsum + b*ysum);
 f2 = @(x) (-a*x - c)/b;
-fplot(f2, [-0.1, 0.5])
+fplot(f2, [-0.05, 0.35])
 legend('Data points', 'Least squares', 'Total least squares');
