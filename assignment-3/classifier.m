@@ -1,7 +1,7 @@
 % Split data into training and test set
 load('FaceNonFace.mat')
 
-testruns = 5000;
+testruns = 1000;
 accumulated_accuracy = 0;
 for i=1:testruns
     part = cvpartition(200, 'HoldOut', 0.20);
@@ -13,21 +13,13 @@ for i=1:testruns
     Y_train = Y(train_indices);
 
     % Train model 
-    class_data = class_train(X_train, Y_train);
-    
-    % The probability of a random sample being in a class
-    nbr_faceclass = numel(find(Y_train==1));
-    nbr_nonfaceclass = numel(Y_train) - nbr_faceclass;
-    p_faceclass = nbr_faceclass / numel(Y_train);
-    p_nonfaceclass = nbr_nonfaceclass / numel(Y_train);
-    class_data{5} = p_faceclass;
-    class_data{6} = p_nonfaceclass;
+    class_data = train_bayes(X_train, Y_train);
     
     % Predict 
     predictions = zeros(size(X_test,2),1);
     for j=1:size(X_test,2)
         x = X_test(:, j);
-        predictions(j) = classify(x, class_data);
+        predictions(j) = classify_bayes(x, class_data);
     end
 
     % Test accuracy
@@ -45,8 +37,16 @@ disp('Error rate:');
 disp(1-accuracy);
 
 % Naive Bayes Classifier
-function classification_data = class_train(X,Y)
+function classification_data = train_bayes(X,Y)
 classification_data = cell(1, 6);
+
+% The probability of a random sample being in a class
+nbr_faceclass = numel(find(Y==1));
+nbr_nonfaceclass = numel(Y) - nbr_faceclass;
+p_faceclass = nbr_faceclass / numel(Y);
+p_nonfaceclass = nbr_nonfaceclass / numel(Y);
+classification_data{5} = p_faceclass;
+classification_data{6} = p_nonfaceclass;
 
 % Separate data by class
 face = X(:, Y==1);
@@ -59,7 +59,7 @@ classification_data{3} = mean(nonface, 2);
 classification_data{4} = std(nonface, 0, 2);
 end
 
-function y = classify(x,classification_data)
+function y = classify_bayes(x,classification_data)
 face_mean = classification_data{1};
 face_std = classification_data{2};
 nonface_mean = classification_data{3};
