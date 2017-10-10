@@ -32,6 +32,44 @@ for i=1:7*3
     [~,label] = max(map(:,i));
     labels(i) = label;
 end
-%% 
+%% Q5
+im = [1 0 0 0;0 1 0 0;0 0 1 0;0 1 0 0];
+% P(error) = eps
+eps = 0.2;
+apriori = [0.3 0.2 0.2 0.3];
+P_im_i = zeros(1,4);
+P_x = 0;
+for i=1:4
+    % Test each column
+    nbr_wrong = nnz(~im(:,i));
+    P_im_i(i) = eps^nbr_wrong*(1-eps)^(4-nbr_wrong);
+    P_x = P_x + P_im_i(i) * apriori(i);
+end
+apost = (P_im_i.*apriori)/P_x;
 
+%% Q6
+% Represent the possible images as binary matrices
+x = [0 0 0;1 0 0;0 1 0;0 0 1;1 1 0];
+B = [1 1 0;1 0 1;1 1 0;1 0 1;1 1 0];
+O = [0 1 0;1 0 1;1 0 1;1 0 1;0 1 0];
+eight = [0 1 0;1 0 1;0 1 0;1 0 1;0 1 0];
+ims = cell(1,3);
+ims{1} = B;
+ims{2} = O;
+ims{3} = eight;
 
+eps_orig_white = 0.3;
+eps_orig_black = 0.2;
+apriori = [0.3 0.4 0.3];
+P_im_i = zeros(1,3);
+P_x = 0;
+for i=1:3
+    % Test each image
+    wrong_pixels = abs(x-ims{i});
+    wrong_values = x(find(wrong_pixels));
+    nbr_orig_white = nnz(wrong_values);
+    nbr_orig_black = numel(wrong_values) - nbr_orig_white;
+    P_im_i(i) = eps_orig_white^nbr_orig_white * eps_orig_black^nbr_orig_black; 
+    P_x = P_x + P_im_i(i) * apriori(i);
+end
+apost = (P_im_i.*apriori)/P_x
