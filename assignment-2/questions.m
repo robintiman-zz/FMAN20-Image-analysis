@@ -41,11 +41,14 @@ P_im_i = zeros(1,4);
 P_x = 0;
 for i=1:4
     % Test each column
-    nbr_wrong = nnz(~im(:,i));
-    P_im_i(i) = eps^nbr_wrong*(1-eps)^(4-nbr_wrong);
+    im_without_col = im;
+    im_without_col(:,i) = [];
+    nbr_right = nnz(im(:,i)) + nnz(~im_without_col);
+    nbr_wrong = 16 - nbr_right;
+    P_im_i(i) = eps^nbr_wrong*(1-eps)^nbr_right;
     P_x = P_x + P_im_i(i) * apriori(i);
 end
-apost = (P_im_i.*apriori)/P_x;
+apost = (P_im_i.*apriori)/P_x
 
 %% Q6
 % Represent the possible images as binary matrices
@@ -58,18 +61,29 @@ ims{1} = B;
 ims{2} = O;
 ims{3} = eight;
 
-eps_orig_white = 0.3;
-eps_orig_black = 0.2;
+eps_white = 0.3;
+eps_black = 0.2;
 apriori = [0.3 0.4 0.3];
 P_im_i = zeros(1,3);
 P_x = 0;
+total_pixels = numel(x);
 for i=1:3
-    % Test each image
+    % Get the values for wrong pixels to check which ones were originally 
+    % black and white. 
     wrong_pixels = abs(x-ims{i});
     wrong_values = x(find(wrong_pixels));
     nbr_orig_white = nnz(wrong_values);
     nbr_orig_black = numel(wrong_values) - nbr_orig_white;
-    P_im_i(i) = eps_orig_white^nbr_orig_white * eps_orig_black^nbr_orig_black; 
+    
+    % Do the same for the correct pixels
+    right_pixels = ~wrong_pixels;
+    right_values = x(find(right_pixels));
+    nbr_black = nnz(right_values);
+    nbr_white = numel(right_values) - nbr_black; 
+   
+    % Multiply to get the probability 
+    P_im_i(i) = eps_white^nbr_orig_white * eps_black^nbr_orig_black * ...
+        (1-eps_white)^(nbr_white) * (1-eps_black)^(nbr_black);
     P_x = P_x + P_im_i(i) * apriori(i);
 end
 apost = (P_im_i.*apriori)/P_x
