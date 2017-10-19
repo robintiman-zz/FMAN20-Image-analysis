@@ -1,0 +1,20 @@
+Q2
+back_std =
+
+    0.0936
+
+
+chamb_std =
+
+    0.0992
+
+
+back_mean =
+
+    0.1065
+
+
+chamb_mean =
+
+    0.3542
+
