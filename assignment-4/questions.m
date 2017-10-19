@@ -64,6 +64,20 @@ waitforbuttonpress
 end
 
 %% Q3
+F = [-4 2 -6;3 0 7;-6 9 1];
+a = [1 2 1;3 2 1;0 3 1];
+b = [1 1 1;5 1 1;-1 -3 1];
+
+corr_points = zeros(3,3);
+for i=1:3
+    for j=1:3
+        corr_points(i,j) = a(i,:)*F*b(j,:)'; 
+    end 
+end
+corr_points
+
+% Answer a1->b2 and a2->b1
+
 
 
 
