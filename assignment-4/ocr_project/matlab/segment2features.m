@@ -40,7 +40,7 @@ features(11) = extrema(1);
 features(12) = extrema(2);
 
 [B,L,N] = bwboundaries(letter);
-features(13) = N;
+features(13) = length(B);
 for i=2:length(B)
     features(14) = features(14) + numel(find(L==i));
 end
