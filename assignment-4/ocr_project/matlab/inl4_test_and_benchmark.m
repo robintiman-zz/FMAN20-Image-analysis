@@ -31,15 +31,14 @@ load classification_data
 mysystem.classification_data = classification_data;
 
 %% Choose dataset
-datadir = '../datasets/short1';     % Which folder of examples are you going to test it on
-%datadir = '../datasets/home2';     % Which folder of examples are you going to test it on
+% datadir = '../datasets/short2';     % Which folder of examples are you going to test it on
+datadir = '../datasets/home1';     % Which folder of examples are you going to test it on
 
 %% Benchmark and visualize
-mode = 2; % debug modes 
+mode = 0; % debug modes 
 % 0 with no plots
 % 1 with some plots
 % 2 with the most plots
 [hitrate,confmat,allres,alljs,alljfg,allX,allY]=benchmark_inl4(mysystem,datadir,mode);
-
 hitrate
 

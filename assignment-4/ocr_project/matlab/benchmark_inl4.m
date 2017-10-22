@@ -7,7 +7,6 @@ function [hitrate,confmat,allres,alljs,alljfg,allX,allY]=benchmark_inl3(mysystem
 if nargin<3,
     mode = 2;
 end
-
 %keyboard;
 thispath = pwd;
 nbr_correct = 0;
@@ -44,20 +43,20 @@ for ii=1:length(a);
         
         %keyboard;
         % segment image and check that the segmentation function exist
-        try
-            S = feval(mysystem.segmenter,im);
-        catch
-            disp(['There was an error when I tried to run ' mysystem.segmenter]);
-            blubb = exist(mysystem.segmenter);
-            if blubb == 2,
-                disp('The function seems to exist');
-            elseif blubb == 0
-                disp('The function does not exist');
-            else
-                disp('This is strange. There is no such function, but there is something else with this name');
-            end
-            error(['There was an error when I tried to run ' mysystem.segmenter]);
-        end
+%         try
+        S = feval(mysystem.segmenter,im);
+%         catch
+%             disp(['There was an error when I tried to run ' mysystem.segmenter]);
+%             blubb = exist(mysystem.segmenter);
+%             if blubb == 2,
+%                 disp('The function seems to exist');
+%             elseif blubb == 0
+%                 disp('The function does not exist');
+%             else
+%                 disp('This is strange. There is no such function, but there is something else with this name');
+%             end
+%             error(['There was an error when I tried to run ' mysystem.segmenter]);
+%         end
         nrofsegments = length(S);
         
         % Calculate total foreground of system
@@ -100,19 +99,19 @@ for ii=1:length(a);
             %[ii kk jj]
             %keyboard;
             allY(1,jj)=ialfabet(gtdata.facit(kk));
-            try
-                XX = feval(mysystem.features,gtdata.S{kk});
-            catch
-                blubb = exist(mysystem.segmenter,'kind'),
-                if blubb == 2,
-                    disp('The function seems to exist');
-                elseif blubb == 0
-                    disp('The function does not exist');
-                else
-                    disp('This is strange. There is no such function, but there is something else with this name');
-                end
-                error(['There was an error when I tried to run ' mysystem.features]);
-            end
+%             try
+            XX = feval(mysystem.features,gtdata.S{kk});
+%             catch
+%                 blubb = exist(mysystem.segmenter,'kind'),
+%                 if blubb == 2,
+%                     disp('The function seems to exist');
+%                 elseif blubb == 0
+%                     disp('The function does not exist');
+%                 else
+%                     disp('This is strange. There is no such function, but there is something else with this name');
+%                 end
+%                 error(['There was an error when I tried to run ' mysystem.features]);
+%             end
             allX(:,jj)=XX;
         end
         

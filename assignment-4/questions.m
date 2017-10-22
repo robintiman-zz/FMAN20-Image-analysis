@@ -43,14 +43,12 @@ a_chamb = -log(numel(chamber_values)/total_pixels);
 pd_back = -log(normpdf(im, back_mean, back_std)) - a_back;
 pd_chamb = -log(normpdf(im, chamb_mean, chamb_std)) - a_chamb;
 
-% start at lambda = 3.5 
-for lambda=1:0.01:5
+lambda = 4.15;
 [M, N] = size(im);
 n = numel(im);
 neigh = edges4connected(M,N);
 i = neigh(:,1);
 j = neigh(:,2);
-% lambda = 0.11;
 A = sparse(i,j,lambda,n,n);
 T = [pd_back(:) pd_chamb(:)];
 T = sparse(T);
@@ -58,10 +56,7 @@ T = sparse(T);
 [E, theta] = maxflow(A,T);
 theta = reshape(theta,M,N);
 theta = double(theta);
-imshow(theta)
-lambda
-waitforbuttonpress
-end
+imshow(imresize(theta, 3))
 
 %% Q3
 F = [-4 2 -6;3 0 7;-6 9 1];

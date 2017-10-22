@@ -1,9 +1,35 @@
 function [S] = im2segment(im)
-% [S] = im2segment(im)
+bw = imbinarize(mat2gray(im));
+bw = imcomplement(bw);
+nbr_letters = 5;
+% bwlabel finds the connected components. 
+[L, n] = bwlabel(bw);
+S = cell(1, n);
+pixel_count = zeros(1,n);
+for i=1:n
+    seg = zeros(size(bw));
+    % The indices for component i is filled with white, the rest remains
+    % black. 
+    letter = L==i;
+    pixel_count(i) = nnz(letter);
+    seg(letter) = 1;
+    S{i} = seg;
+end
 
-nrofsegments = 4;
-m = size(im,1);
-n = size(im,2);
-for kk = 1:nrofsegments;
-    S{kk}= (rand(m,n)<0.5);
-end;
+% Sometimes a pixel can be part of a letter but not in direct contact with
+% it. These instances needs to be removed. 
+if nbr_letters ~= n
+    to_remove = n-nbr_letters;
+    [~,i] = sort(pixel_count);
+    S(i(1:to_remove)) = [];
+end
+
+% % Binarize function. It is applied to each pixel.  
+% % return: level - 0 for black, 1 for white. 
+% function [level] = binarize(value)
+% threshold = 140;
+% if value > threshold
+%     level = 0;
+% else
+%     level = 1;
+% end

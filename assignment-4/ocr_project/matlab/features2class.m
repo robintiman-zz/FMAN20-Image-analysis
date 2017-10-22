@@ -1,3 +1,2 @@
-function y = features2class(x,data);
-
-y = ceil(rand*26);
+function y = features2class(x,model)
+y = predict(model, x');
