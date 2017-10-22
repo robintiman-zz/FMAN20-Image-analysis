@@ -23,7 +23,9 @@
 % 
 
 %% Setup the names of the functions of your OCR system.
-
+dirs = {'../datasets/home1','../datasets/home2','../datasets/home3',...
+    '../datasets/short1','../datasets/short2'};
+for i=1:5
 mysystem.segmenter = 'im2segment'; % What is the name of your segmentation-algorithm.
 mysystem.features = 'segment2features'; % What is the name of your features-algorithm.
 mysystem.classifier = 'features2class'; % What is the name of your classification-algorithm.
@@ -32,7 +34,8 @@ mysystem.classification_data = classification_data;
 
 %% Choose dataset
 % datadir = '../datasets/short2';     % Which folder of examples are you going to test it on
-datadir = '../datasets/home1';     % Which folder of examples are you going to test it on
+% datadir = '../datasets/home1';     % Which folder of examples are you going to test it on
+datadir = dirs{i};
 
 %% Benchmark and visualize
 mode = 0; % debug modes 
@@ -40,5 +43,7 @@ mode = 0; % debug modes
 % 1 with some plots
 % 2 with the most plots
 [hitrate,confmat,allres,alljs,alljfg,allX,allY]=benchmark_inl4(mysystem,datadir,mode);
+out = ['Hitrate for ', datadir, ':'];
+disp(out)
 hitrate
-
+end

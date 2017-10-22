@@ -23,13 +23,3 @@ if nbr_letters ~= n
     [~,i] = sort(pixel_count);
     S(i(1:to_remove)) = [];
 end
-
-% % Binarize function. It is applied to each pixel.  
-% % return: level - 0 for black, 1 for white. 
-% function [level] = binarize(value)
-% threshold = 140;
-% if value > threshold
-%     level = 0;
-% else
-%     level = 1;
-% end

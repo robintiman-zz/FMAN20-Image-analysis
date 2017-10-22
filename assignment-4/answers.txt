@@ -18,3 +18,21 @@ chamb_mean =
 
     0.3542
 
+
+Q4
+After:
+Hitrate for ../datasets/home1:
+hitrate =
+   0.770000000000000
+Hitrate for ../datasets/home2:
+hitrate =
+   0.807000000000000
+Hitrate for ../datasets/home3:
+hitrate =
+   0.801000000000000
+Hitrate for ../datasets/short1:
+hitrate =
+     1
+Hitrate for ../datasets/short2:
+hitrate =
+     1
